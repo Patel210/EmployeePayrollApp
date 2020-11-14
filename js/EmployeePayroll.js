@@ -8,7 +8,7 @@ class EmployeePayroll {
     if (nameRegex.test(name)) {
       this._name = name;
     }
-    else throw "Incorrect Name! Must Start With A Capital Letters!";
+    else throw "Incorrect Name! Must Start With A Capital Letter!";
   }
 
   get id() {
@@ -61,10 +61,15 @@ class EmployeePayroll {
     return this._startDate;
   }
   set startDate(date) {
-    const options = { year: "numeric", month: "long", day: "numeric" };
-    const employeeDate = date === undefined ? "undefined" :
-      date.toLocaleDateString("en-US", options);
-    this._startDate = employeeDate;
+    if (date != undefined) {
+      if (date <= new Date()) {
+        const options = { year: "numeric", month: "long", day: "numeric" };
+        const employeeDate = date === undefined ? "undefined" :
+          date.toLocaleDateString("en-US", options);
+        this._startDate = employeeDate;
+      }
+      else throw "Start Date Cannot Be Of The Future!";
+    }
   }
 
   toString() {
