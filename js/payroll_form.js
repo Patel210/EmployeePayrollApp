@@ -44,7 +44,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
   }));
 });
 
-const save = (event) => {
+const save = () => {
   checked = $("input[type=checkbox]:checked").length;
   if (!checked) {
     alert("You must select at least one department.");
@@ -54,6 +54,7 @@ const save = (event) => {
   try {
     let employeePayrollData = createEmployeePayroll();
     createAndupdateStorage(employeePayrollData);
+    resetForm();
   } catch (error) {
     alert(error);
   }
@@ -90,6 +91,20 @@ function createAndupdateStorage(employeePayrollData) {
   localStorage.setItem("EmployeePayrollList", JSON.stringify(employeePayrollList));
 }
 
+const resetForm = () => {
+  setValue('#name','');
+  setTextValue('#name-error','');
+  unsetSelectedValues('[name=profile]');
+  unsetSelectedValues('[name=gender]');
+  unsetSelectedValues('[name=department]');
+  setValue('#salary','');
+  setValue('#notes','');
+  setValue('#day','01');
+  setValue('#month','0');
+  setValue('#year','2020');
+  setTextValue('#date-error','');
+}
+
 const getSelectedValues = (propertyValue) => {
   let allItems = document.querySelectorAll(propertyValue);
   let selItems = [];
@@ -104,6 +119,23 @@ const getSelectedValues = (propertyValue) => {
 const getInputValueById = (id) => {
   let value = document.querySelector(id).value;
   return value;
+}
+
+const unsetSelectedValues = (propertyValue) => {
+  let allItems = document.querySelectorAll(propertyValue);
+  allItems.forEach(item => {
+    item.checked = false;
+  });
+}
+
+const setTextValue = (id, value) => {
+  const element = document.querySelector(id);
+  element.textContent = value;
+}
+
+const setValue = (id, value) => {
+  const element = document.querySelector(id);
+  element.value = value;
 }
 
 const isLeapYear = (year) => {
