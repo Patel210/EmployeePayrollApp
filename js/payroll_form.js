@@ -12,7 +12,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
       textError.textContent = "";
     } catch (error) {
       textError.textContent = error;
-      return;
     }
   });
 
@@ -54,7 +53,7 @@ const save = (event) => {
 
   try {
     let employeePayrollData = createEmployeePayroll();
-    alert(employeePayrollData);
+    createAndupdateStorage(employeePayrollData);
   } catch (error) {
     alert(error);
   }
@@ -73,10 +72,22 @@ const createEmployeePayroll = () => {
       employeePayrollData.startDate = new Date(getInputValueById('#year'), getInputValueById('#month'),
       getInputValueById('#day'));
     } else throw "Cannot Enter Impossible Date!";
+    alert(employeePayrollData);
     return employeePayrollData;
   } catch (error) {
     throw error;
   }
+}
+
+function createAndupdateStorage(employeePayrollData) {
+  let employeePayrollList = JSON.parse(localStorage.getItem("EmployeePayrollList"));
+  if (employeePayrollList == undefined) {
+    employeePayrollList = [employeePayrollData];
+  } else {
+    employeePayrollList.push(employeePayrollData);
+  }
+  alert(employeePayrollList.toString());
+  localStorage.setItem("EmployeePayrollList", JSON.stringify(employeePayrollList));
 }
 
 const getSelectedValues = (propertyValue) => {
