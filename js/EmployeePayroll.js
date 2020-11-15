@@ -4,7 +4,7 @@ class EmployeePayroll {
     return this._name;
   }
   set name(name) {
-    let nameRegex = RegExp('^[A-Z]{1}[a-z]{2,}$');
+    let nameRegex = RegExp('^[A-Z]{1}[a-z]{2,}([\\s][A-Z]{1}[a-z]{2,})?$');
     if (nameRegex.test(name)) {
       this._name = name;
     }
@@ -54,7 +54,11 @@ class EmployeePayroll {
     return this._note;
   }
   set note(note) {
-    this._note = note;
+    if (note == "") {
+      this._note = undefined;
+    } else {
+      this._note = note;
+    }
   }
 
   get startDate() {

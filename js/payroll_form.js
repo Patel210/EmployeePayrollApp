@@ -12,6 +12,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
       textError.textContent = "";
     } catch (error) {
       textError.textContent = error;
+      return;
     }
   });
 
@@ -45,6 +46,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
 });
 
 const save = (event) => {
+  checked = $("input[type=checkbox]:checked").length;
+  if (!checked) {
+    alert("You must select at least one department.");
+    return;
+  }
+
   try {
     let employeePayrollData = createEmployeePayroll();
     alert(employeePayrollData);
@@ -62,8 +69,10 @@ const createEmployeePayroll = () => {
     employeePayrollData.department = getSelectedValues('[name=department]');
     employeePayrollData.salary = getInputValueById('#salary');
     employeePayrollData.note = getInputValueById('#notes');
-    employeePayrollData.startDate = new Date(getInputValueById('#year'), getInputValueById('#month'),
+    if (document.querySelector('.date-error').textContent == "") {
+      employeePayrollData.startDate = new Date(getInputValueById('#year'), getInputValueById('#month'),
       getInputValueById('#day'));
+    } else throw "Cannot Enter Impossible Date!";
     return employeePayrollData;
   } catch (error) {
     throw error;
