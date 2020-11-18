@@ -67,9 +67,9 @@ class EmployeePayroll {
   set startDate(date) {
     if (date != undefined) {
       if (date <= new Date()) {
-        const options = { year: "numeric", month: "long", day: "numeric" };
+        const options = { year: "numeric", month: "short", day: "numeric" };
         const employeeDate = date === undefined ? "undefined" :
-          date.toLocaleDateString("en-US", options);
+          date.toLocaleDateString("en-GB", options);
         this._startDate = employeeDate;
       }
       else throw "Start Date Cannot Be Of The Future!";
