@@ -83,11 +83,11 @@ const save = (event) => {
 }
 
 const createOrUpdateEmployeePayroll = () => {
-  let postURL = site_properties.server_url;
+  let postURL = site_properties.server_url + "create";
   let methodCall = "POST";
   if (isUpdate) {
     methodCall = "PUT";
-    postURL = postURL + employeePayrollObject.id.toString();
+    postURL = site_properties.server_url + "update/" + employeePayrollObject.id.toString();
   }
   makeServiceCall(methodCall, postURL, true, employeePayrollObject)
     .then(responseText => {
@@ -103,14 +103,14 @@ const setEmployeePayrollObject = () => {
   if (!isUpdate && site_properties.use_local_storage.match("true")) {
     employeePayrollObject.id = createNewEmployeeId();
   }
-  employeePayrollObject._name = getInputValueById('#name');
-  employeePayrollObject._profilePic = getSelectedValues('[name=profile]').pop();
-  employeePayrollObject._gender = getSelectedValues('[name=gender]').pop();
-  employeePayrollObject._department = getSelectedValues('[name=department]');
-  employeePayrollObject._salary = getInputValueById('#salary');
-  employeePayrollObject._note = getInputValueById('#notes');
+  employeePayrollObject.name = getInputValueById('#name');
+  employeePayrollObject.profilePic = getSelectedValues('[name=profile]').pop();
+  employeePayrollObject.gender = getSelectedValues('[name=gender]').pop();
+  employeePayrollObject.departments = getSelectedValues('[name=department]');
+  employeePayrollObject.salary = getInputValueById('#salary');
+  employeePayrollObject.notes = getInputValueById('#notes');
   if (document.querySelector('.date-error').textContent == "") {
-    employeePayrollObject._startDate = new Date(getInputValueById('#year'),
+    employeePayrollObject.startDate = new Date(getInputValueById('#year'),
       parseInt(getInputValueById('#month')) - 1,
       getInputValueById('#day'));
   } else throw "Cannot Enter Impossible Date!";
@@ -141,14 +141,14 @@ const createNewEmployeeId = () => {
 }
 
 const setForm = () => {
-  setValue('#name', employeePayrollObject._name);
-  setSelectedValues('[name=profile]', employeePayrollObject._profilePic);
-  setSelectedValues('[name=gender]', employeePayrollObject._gender);
-  setSelectedValues('[name=department]', employeePayrollObject._department);
-  setValue('#salary', employeePayrollObject._salary);
-  setTextValue('.salary-output', employeePayrollObject._salary);
-  setValue('#notes', employeePayrollObject._note);
-  let date = stringifyDate(employeePayrollObject._startDate).split(" ");
+  setValue('#name', employeePayrollObject.name);
+  setSelectedValues('[name=profile]', employeePayrollObject.profilePic);
+  setSelectedValues('[name=gender]', employeePayrollObject.gender);
+  setSelectedValues('[name=department]', employeePayrollObject.departments);
+  setValue('#salary', employeePayrollObject.salary);
+  setTextValue('.salary-output', employeePayrollObject.salary);
+  setValue('#notes', employeePayrollObject.notes);
+  let date = stringifyDate(employeePayrollObject.startDate).split(" ");
   let month = ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'].indexOf(date[1]);
   setValue('#day', date[0]);
   setValue('#month', month);

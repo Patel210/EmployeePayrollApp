@@ -12,6 +12,7 @@ const getEmployeePayrollListFromStorage = () => {
 
 const processEmployeePayrollDataResponse = () => {
   document.querySelector(".emp-count").textContent = employeePayrollList.length;
+  console.log(employeePayrollList.toString());
   createInnerHTML();
   localStorage.removeItem('editEmp'); 
 }
@@ -43,12 +44,12 @@ const createInnerHTML = () => {
     for (const employeePayrollData of employeePayrollList) {
       innerHtml = `${innerHtml}
       <tr>
-        <td><img class="profile" alt="" src="${employeePayrollData._profilePic}"></td>
-        <td>${employeePayrollData._name}</td>
-        <td>${employeePayrollData._gender}</td>
-        <td>${getDeptHtml(employeePayrollData._department)}</td>
-        <td>${employeePayrollData._salary}</td>
-        <td>${stringifyDate(employeePayrollData._startDate)}</td>
+        <td><img class="profile" alt="" src="${employeePayrollData.profilePic}"></td>
+        <td>${employeePayrollData.name}</td>
+        <td>${employeePayrollData.gender}</td>
+        <td>${getDeptHtml(employeePayrollData.departments)}</td>
+        <td>${employeePayrollData.salary}</td>
+        <td>${stringifyDate(employeePayrollData.startDate)}</td>
         <td>
           <img id="${employeePayrollData.id}" onclick="remove(this)" alt="delete" 
                     src="../assets/icons/delete-black-18dp.svg">
@@ -82,7 +83,7 @@ const remove = (node) => {
     localStorage.setItem("EmployeePayrollList", JSON.stringify(employeePayrollList));
     createInnerHTML();
   } else {
-    const deleteURL = site_properties.server_url + employeePayrollData.id.toString();
+    const deleteURL = site_properties.server_url + "delete/" + employeePayrollData.id.toString();
     makeServiceCall("DELETE", deleteURL, false)
       .then(responseText => {
         createInnerHTML();
